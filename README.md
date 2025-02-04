@@ -4,10 +4,10 @@ Este projeto consiste em um sistema simples de gerenciamento de tarefas (ToDo Li
 # Requisitos
 - Java 17 ou superior
 - Spring Boot
-- SQL Server (local ou Azure)
-- Maven
+- [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) Ou [MYSQL](https://dev.mysql.com/downloads/installer/) (local ou [Azure](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads))
+- [Maven 3.9.9](https://maven.apache.org/download.cgi)
 - Git
-- IDE (IntelliJ, Eclipse, ou qualquer outra que você preferir)
+- IDE (IntelliJ, Eclipse, ou qualquer outra que você preferir, *até mesmo o terminal!*)
 
 # Tecnologias Utilizadas
 - Back-end: Spring Boot (Java)
@@ -23,7 +23,7 @@ Este projeto consiste em um sistema simples de gerenciamento de tarefas (ToDo Li
 - Crie um banco de dados SQL na sua conta do Azure.
 - Certifique-se de permitir conexões externas (como o IP da sua máquina).
 
-### Banco de Dados Local:
+### Banco de Dados Local (SQL Server ou MYSQL):
 - Instale o SQL Server Express ou a versão que preferir.
  Crie um banco de dados para este projeto.
 
@@ -147,7 +147,6 @@ A aplicação estará disponível em http://localhost:8080.
 
 ### 4. DELETE /tasks/{id}
 - Deleta uma tarefa.
-
 - Resposta:
 
 ``` bash
@@ -158,6 +157,7 @@ A aplicação estará disponível em http://localhost:8080.
 # Observações
 - O projeto usa Flyway para gerenciar migrações do banco de dados, garantindo que as tabelas sejam criadas de forma automatizada.
 - Todos os dados são armazenados em um banco de dados SQL Server, que pode ser configurado localmente ou no Azure.
+
 ## Considerações Finais
 - O projeto foi desenvolvido de forma a ser fácil de configurar e executar.
 - O banco de dados pode ser configurado tanto localmente quanto na nuvem (Azure).
