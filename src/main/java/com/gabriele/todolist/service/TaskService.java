@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -18,19 +17,11 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public List<TaskResponseDTO> getAllTasks() {
-        return taskRepository.findAll()
-                .stream()
-                .map(task -> new TaskResponseDTO(
-                        task.getId(), task.getTitle(), task.getDescription(),
-                        task.getStatus(), task.getCreatedAt()))
-                .collect(Collectors.toList());
+        return taskRepository.findAll().stream().map(this::convertToDto).toList();
     }
 
     public Optional<TaskResponseDTO> getTaskById(Long id) {
-        return taskRepository.findById(id)
-                .map(task -> new TaskResponseDTO(
-                        task.getId(), task.getTitle(), task.getDescription(),
-                        task.getStatus(), task.getCreatedAt()));
+        return taskRepository.findById(id).map(this::convertToDto);
     }
 
     public TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
@@ -38,15 +29,29 @@ public class TaskService {
         task.setTitle(taskRequestDTO.getTitle());
         task.setDescription(taskRequestDTO.getDescription());
         task.setStatus(taskRequestDTO.getStatus());
+        return convertToDto(taskRepository.save(task));
+    }
 
-        Task savedTask = taskRepository.save(task);
-
-        return new TaskResponseDTO(
-                savedTask.getId(), savedTask.getTitle(), savedTask.getDescription(),
-                savedTask.getStatus(), savedTask.getCreatedAt());
+    public Optional<TaskResponseDTO> updateTask(Long id, TaskRequestDTO taskRequestDTO) {
+        return taskRepository.findById(id).map(existingTask -> {
+            existingTask.setTitle(taskRequestDTO.getTitle());
+            existingTask.setDescription(taskRequestDTO.getDescription());
+            existingTask.setStatus(taskRequestDTO.getStatus());
+            return convertToDto(taskRepository.save(existingTask));
+        });
     }
 
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    public TaskResponseDTO convertToDto(Task task) {
+        TaskResponseDTO dto = new TaskResponseDTO();
+        dto.setId(task.getId());
+        dto.setTitle(task.getTitle());
+        dto.setDescription(task.getDescription());
+        dto.setStatus(task.getStatus());
+        dto.setCreatedAt(task.getCreatedAt());
+        return dto;
     }
 }
