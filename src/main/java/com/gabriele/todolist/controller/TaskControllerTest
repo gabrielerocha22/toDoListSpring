@@ -1,0 +1,66 @@
+package com.gabriele.todolist.controller;
+
+import com.gabriele.todolist.dto.TaskRequestDTO;
+import com.gabriele.todolist.dto.TaskResponseDTO;
+import com.gabriele.todolist.model.Task;
+import com.gabriele.todolist.repository.TaskRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+public class TaskControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private TaskRepository taskRepository;
+
+    @InjectMocks
+    private TaskController taskController;
+
+    private Task task;
+    private TaskRequestDTO taskRequestDTO;
+
+    @BeforeEach
+    void setUp() {
+        task = new Task(1L, "Nova Tarefa", "Descrição da tarefa", LocalDateTime.now(), "pendente");
+        taskRequestDTO = new TaskRequestDTO("Nova Tarefa", "Descrição da tarefa", "pendente");
+    }
+
+    @Test
+    void testGetAllTasks() throws Exception {
+        when(taskRepository.findAll()).thenReturn(Arrays.asList(task));
+
+        mockMvc.perform(get("/tasks"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("Nova Tarefa"));
+    }
+
+    @Test
+    void testCreateTask() throws Exception {
+        when(taskRepository.save(any(Task.class))).thenReturn(task);
+
+        mockMvc.perform(post("/tasks")
+                .contentType("application/json")
+                .content("{\"title\": \"Nova Tarefa\", \"description\": \"Descrição da tarefa\", \"status\": \"pendente\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.title").value("Nova Tarefa"));
+    }
+
+    @Test
+    void testDeleteTask() throws Exception {
+        mockMvc.perform(delete("/tasks/1"))
+                .andExpect(status().isNoContent());
+    }
+}

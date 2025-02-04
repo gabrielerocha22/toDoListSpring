@@ -1,0 +1,94 @@
+package com.gabriele.todolist.service;
+
+
+import com.gabriele.todolist.dto.TaskRequestDTO;
+import com.gabriele.todolist.dto.TaskResponseDTO;
+import com.gabriele.todolist.model.Task;
+import com.gabriele.todolist.repository.TaskRepository;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class TaskServiceTest {
+
+    @Mock
+    private TaskRepository taskRepository;
+
+    @InjectMocks
+    private TaskService taskService;
+
+    private Task task;
+    private TaskRequestDTO taskRequestDTO;
+
+    @BeforeEach
+    void setUp() {
+        task = new Task(1L, "Nova Tarefa", "Descrição da tarefa", LocalDateTime.now(), "pendente");
+        taskRequestDTO = new TaskRequestDTO("Nova Tarefa", "Descrição da tarefa", "pendente");
+    }
+
+    @Test
+    void testGetAllTasks() {
+        when(taskRepository.findAll()).thenReturn(Arrays.asList(task));
+
+        List<TaskResponseDTO> tasks = taskService.getAllTasks();
+
+        assertFalse(tasks.isEmpty());
+        assertEquals(1, tasks.size());
+        assertEquals("Nova Tarefa", tasks.get(0).getTitle());
+        verify(taskRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetTaskById_Success() {
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+
+        Optional<TaskResponseDTO> result = taskService.getTaskById(1L);
+
+        assertTrue(result.isPresent());
+        assertEquals("Nova Tarefa", result.get().getTitle());
+        verify(taskRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testGetTaskById_NotFound() {
+        when(taskRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Optional<TaskResponseDTO> result = taskService.getTaskById(1L);
+
+        assertFalse(result.isPresent());
+        verify(taskRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testCreateTask() {
+        when(taskRepository.save(any(Task.class))).thenReturn(task);
+
+        TaskResponseDTO createdTask = taskService.createTask(taskRequestDTO);
+
+        assertNotNull(createdTask);
+        assertEquals("Nova Tarefa", createdTask.getTitle());
+        verify(taskRepository, times(1)).save(any(Task.class));
+    }
+
+    @Test
+    void testDeleteTask() {
+        doNothing().when(taskRepository).deleteById(1L);
+
+        taskService.deleteTask(1L);
+
+        verify(taskRepository, times(1)).deleteById(1L);
+    }
+}
