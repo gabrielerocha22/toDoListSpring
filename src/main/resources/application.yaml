@@ -1,13 +1,14 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=todolist_db;encrypt=false
-    username: sa
-    password: "123"
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:mysql://localhost:3306/toDo_List?useSSL=false&serverTimezone=UTC
+    username: root
+    password: "root"
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
 
   flyway:

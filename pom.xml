@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.gabriele.todolist</groupId>
 	<artifactId>demo</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -91,6 +91,13 @@
         <artifactId>commons-math3</artifactId>
         <version>3.6.1</version>
     </dependency>
+
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>8.0.28</version> 
+	</dependency>
+
 </dependencies>
 
 	<build>
