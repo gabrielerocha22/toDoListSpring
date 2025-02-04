@@ -1,7 +1,7 @@
 CREATE TABLE tasks (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
+    title NVARCHAR(255) NOT NULL,
+    description NVARCHAR(MAX),
     created_at DATETIME DEFAULT GETDATE(),
-    status VARCHAR(50) NOT NULL
+    status NVARCHAR(50) NOT NULL
 );
