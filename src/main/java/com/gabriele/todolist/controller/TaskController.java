@@ -5,12 +5,13 @@ import com.gabriele.todolist.dto.TaskResponseDTO;
 import com.gabriele.todolist.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@ComponentScan(basePackages = "com.gabriele.todolist")
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
