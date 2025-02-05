@@ -7,7 +7,8 @@ Este projeto consiste em um sistema simples de gerenciamento de tarefas (ToDo Li
 - [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) Ou [MYSQL](https://dev.mysql.com/downloads/installer/) (local ou [Azure](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads))
 - [Maven 3.9.9](https://maven.apache.org/download.cgi)
 - Git
-- IDE (IntelliJ, Eclipse, ou qualquer outra que você preferir, *até mesmo o terminal!*)
+- IDE (IntelliJ, Eclipse, ou qualquer outra que você preferir)
+- Terminal (Se preferir!)
 
 # Tecnologias Utilizadas
 - Back-end: Spring Boot (Java)
@@ -35,7 +36,7 @@ Este projeto consiste em um sistema simples de gerenciamento de tarefas (ToDo Li
 spring.datasource.url=jdbc:sqlserver://<HOST>:1433;databaseName=<DB_NAME>;
 spring.datasource.username=<DB_USERNAME>
 spring.datasource.password=<DB_PASSWORD>
-spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver ```
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
 
  
 # Flyway Configuration
